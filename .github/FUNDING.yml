@@ -1,0 +1,19 @@
+# Funding configuration for Concert Connect
+# This file configures funding links for the GitHub Sponsors button
+
+# GitHub Sponsors
+github: # Add your GitHub username here if you want to enable sponsorship
+
+# Patreon
+patreon: # Add your Patreon username here
+
+# Open Collective
+open_collective: # Add your Open Collective username here
+
+# Ko-fi
+ko_fi: # Add your Ko-fi username here
+
+# Buy Me a Coffee
+custom: # Add custom funding links here
+  # - "https://www.buymeacoffee.com/yourusername"
+  # - "https://paypal.me/yourusername"
