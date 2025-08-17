@@ -1,7 +1,7 @@
 # Concert Connect 🎵
 
-[![CI/CD Pipeline](https://github.com/yourusername/concert-connect/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/concert-connect/actions/workflows/ci.yml)
-[![Security Audit](https://github.com/yourusername/concert-connect/actions/workflows/security.yml/badge.svg)](https://github.com/yourusername/concert-connect/actions/workflows/security.yml)
+[![CI/CD Pipeline](https://github.com/toddamerrill/ConcertConnect/actions/workflows/ci.yml/badge.svg)](https://github.com/toddamerrill/ConcertConnect/actions/workflows/ci.yml)
+[![Security Audit](https://github.com/toddamerrill/ConcertConnect/actions/workflows/security.yml/badge.svg)](https://github.com/toddamerrill/ConcertConnect/actions/workflows/security.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 
@@ -51,8 +51,8 @@ Concert Connect is a cross-platform application that combines concert ticket pur
 
 1. **Clone the repository**:
 ```bash
-git clone https://github.com/yourusername/concert-connect.git
-cd concert-connect
+git clone https://github.com/toddamerrill/ConcertConnect.git
+cd ConcertConnect
 ```
 
 2. Copy environment variables:
@@ -273,7 +273,7 @@ We welcome contributions from the community! Please read our [Contributing Guide
 1. **Fork the repository** on GitHub
 2. **Clone your fork**:
    ```bash
-   git clone https://github.com/yourusername/concert-connect.git
+   git clone https://github.com/toddamerrill/ConcertConnect.git
    ```
 3. **Create a feature branch**:
    ```bash
@@ -312,13 +312,13 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 For support and questions:
 
 ### GitHub Resources
-- 🐛 **Bug Reports**: [Create a bug report](https://github.com/yourusername/concert-connect/issues/new?template=bug_report.md)
-- 💡 **Feature Requests**: [Request a feature](https://github.com/yourusername/concert-connect/issues/new?template=feature_request.md)
+- 🐛 **Bug Reports**: [Create a bug report](https://github.com/toddamerrill/ConcertConnect/issues/new?template=bug_report.md)
+- 💡 **Feature Requests**: [Request a feature](https://github.com/toddamerrill/ConcertConnect/issues/new?template=feature_request.md)
 - 📖 **Documentation**: Check our [Contributing Guidelines](CONTRIBUTING.md)
 - 🔒 **Security Issues**: See our [Security Policy](SECURITY.md)
 
 ### Community
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/yourusername/concert-connect/discussions)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/toddamerrill/ConcertConnect/discussions)
 - 📧 **Email**: support@concertconnect.com (for private inquiries)
 
 ### Documentation

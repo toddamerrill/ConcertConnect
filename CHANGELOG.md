@@ -69,5 +69,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Mobile**: React Native 0.72, Expo 49, Redux Toolkit, React Native Paper
 - **Infrastructure**: Docker, Docker Compose, GitHub Actions
 
-[Unreleased]: https://github.com/yourusername/concert-connect/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/yourusername/concert-connect/releases/tag/v1.0.0
+[Unreleased]: https://github.com/toddamerrill/ConcertConnect/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/toddamerrill/ConcertConnect/releases/tag/v1.0.0

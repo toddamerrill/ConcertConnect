@@ -3,6 +3,15 @@
   "version": "1.0.0",
   "description": "Concert Connect Web Application",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toddamerrill/ConcertConnect.git",
+    "directory": "web"
+  },
+  "bugs": {
+    "url": "https://github.com/toddamerrill/ConcertConnect/issues"
+  },
+  "homepage": "https://github.com/toddamerrill/ConcertConnect#readme",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

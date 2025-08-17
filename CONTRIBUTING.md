@@ -36,8 +36,8 @@ This project and everyone participating in it is governed by our Code of Conduct
 
 1. **Fork and clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/concert-connect.git
-   cd concert-connect
+   git clone https://github.com/toddamerrill/ConcertConnect.git
+   cd ConcertConnect
    ```
 
 2. **Run the setup script**:
