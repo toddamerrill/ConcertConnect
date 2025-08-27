@@ -56,7 +56,7 @@ This project and everyone participating in it is governed by our Code of Conduct
 4. **Start development environment**:
    ```bash
    # Option A: Using Docker
-   docker-compose up -d
+   docker compose up -d
    
    # Option B: Manual startup
    cd backend && npm run dev &

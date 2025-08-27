@@ -62,7 +62,7 @@ cp .env.example .env
 
 3. Start all services:
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 4. Initialize the database:
@@ -237,10 +237,10 @@ The application uses PostgreSQL with the following main entities:
 ### Docker Deployment
 ```bash
 # Build and run all services
-docker-compose up --build
+docker compose up --build
 
 # Run in production mode
-docker-compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.prod.yml up
 ```
 
 ### Manual Deployment
