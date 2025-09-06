@@ -56,19 +56,20 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.accessToken = user.accessToken;
+        token.sub = user.id;
       }
       return token;
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken;
-      session.user.id = token.sub;
+      // Add user ID to session for API calls
+      if (token.sub) {
+        (session.user as any).id = token.sub as string;
+      }
       return session;
     },
   },
   pages: {
     signIn: '/auth/signin',
-    signUp: '/auth/signup',
   },
   session: {
     strategy: 'jwt',

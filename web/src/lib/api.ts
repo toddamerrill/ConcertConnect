@@ -1,6 +1,6 @@
 import { getSession } from 'next-auth/react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
 
 interface ApiOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -10,7 +10,7 @@ interface ApiOptions {
 }
 
 export class ApiClient {
-  private static async makeRequest<T>(
+  static async makeRequest<T>(
     endpoint: string, 
     options: ApiOptions = {}
   ): Promise<T> {
@@ -31,12 +31,18 @@ export class ApiClient {
 
     // Add auth token if required
     if (requireAuth) {
-      const session = await getSession();
-      if (session?.accessToken) {
-        config.headers = {
-          ...config.headers,
-          Authorization: `Bearer ${session.accessToken}`,
-        };
+      try {
+        const session = await getSession();
+        if (session?.user) {
+          // For now, we'll use a placeholder token or implement JWT token handling
+          // In a real app, you'd get the JWT token from your auth system
+          config.headers = {
+            ...config.headers,
+            Authorization: `Bearer ${session.user.email}`, // Temporary placeholder
+          };
+        }
+      } catch (error) {
+        console.warn('Failed to get session for API call:', error);
       }
     }
 

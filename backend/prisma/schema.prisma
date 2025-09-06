@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,67 +8,55 @@ datasource db {
 }
 
 model User {
-  id                String   @id @default(uuid())
-  email             String   @unique
-  passwordHash      String?
-  firstName         String?
-  lastName          String?
-  profileImageUrl   String?
-  dateOfBirth       DateTime?
-  location          Json?
-  musicPreferences  Json?
-  privacySettings   Json     @default("{}")
-  isEmailVerified   Boolean  @default(false)
+  id                     String           @id @default(uuid())
+  email                  String           @unique
+  passwordHash           String?
+  firstName              String?
+  lastName               String?
+  profileImageUrl        String?
+  dateOfBirth            DateTime?
+  location               Json?
+  musicPreferences       Json?
+  privacySettings        Json             @default("{}")
+  isEmailVerified        Boolean          @default(false)
   emailVerificationToken String?
-  passwordResetToken String?
-  passwordResetExpires DateTime?
-  lastLoginAt       DateTime?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  // Social features
-  sentFriendRequests     Friendship[] @relation("FriendshipRequester")
-  receivedFriendRequests Friendship[] @relation("FriendshipAddressee")
-  
-  // Events
-  userEvents UserEvent[]
-  
-  // Music taste
-  musicTaste UserMusicTaste[]
-  
-  // Social posts and interactions
-  posts     SocialPost[]
-  comments  SocialComment[]
-  likes     SocialLike[]
-  
-  // Payments
-  payments  Payment[]
+  passwordResetToken     String?
+  passwordResetExpires   DateTime?
+  lastLoginAt            DateTime?
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
+  receivedFriendRequests Friendship[]     @relation("FriendshipAddressee")
+  sentFriendRequests     Friendship[]     @relation("FriendshipRequester")
+  payments               Payment[]
+  comments               SocialComment[]
+  likes                  SocialLike[]
+  posts                  SocialPost[]
+  userEvents             UserEvent[]
+  musicTaste             UserMusicTaste[]
 
   @@map("users")
 }
 
 model Event {
-  id               String    @id @default(uuid())
-  externalId       String?   @unique
-  title            String
-  description      String?
-  artistName       String?
-  venueName        String?
-  venueAddress     Json?
-  eventDate        DateTime?
-  ticketUrl        String?
-  imageUrl         String?
-  genre            String?
-  priceRange       Json?
-  externalSource   String?   // 'ticketmaster', 'bandsintown'
-  isActive         Boolean   @default(true)
-  createdAt        DateTime  @default(now())
-  updatedAt        DateTime  @updatedAt
-
-  // Relations
-  userEvents UserEvent[]
-  posts      SocialPost[]
-  payments   Payment[]
+  id             String       @id @default(uuid())
+  externalId     String?      @unique
+  title          String
+  description    String?
+  artistName     String?
+  venueName      String?
+  venueAddress   Json?
+  eventDate      DateTime?
+  ticketUrl      String?
+  imageUrl       String?
+  genre          String?
+  priceRange     Json?
+  externalSource String?
+  isActive       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  payments       Payment[]
+  posts          SocialPost[]
+  userEvents     UserEvent[]
 
   @@map("events")
 }
@@ -80,27 +65,25 @@ model UserEvent {
   id              String   @id @default(uuid())
   userId          String
   eventId         String
-  interactionType String   // 'interested', 'going', 'purchased'
-  purchaseData    Json?    // Store purchase details if applicable
+  interactionType String
+  purchaseData    Json?
   createdAt       DateTime @default(now())
-
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  event           Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, eventId, interactionType])
   @@map("user_events")
 }
 
 model Friendship {
-  id           String   @id @default(uuid())
-  requesterId  String
-  addresseeId  String
-  status       String   @default("pending") // 'pending', 'accepted', 'blocked'
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  requester User @relation("FriendshipRequester", fields: [requesterId], references: [id], onDelete: Cascade)
-  addressee User @relation("FriendshipAddressee", fields: [addresseeId], references: [id], onDelete: Cascade)
+  id          String   @id @default(uuid())
+  requesterId String
+  addresseeId String
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  addressee   User     @relation("FriendshipAddressee", fields: [addresseeId], references: [id], onDelete: Cascade)
+  requester   User     @relation("FriendshipRequester", fields: [requesterId], references: [id], onDelete: Cascade)
 
   @@unique([requesterId, addresseeId])
   @@map("friendships")
@@ -112,88 +95,83 @@ model UserMusicTaste {
   spotifyArtistId String?
   artistName      String
   genre           String?
-  preferenceScore Float    @default(0.5) // 0.0 to 1.0
+  preferenceScore Float    @default(0.5)
   lastUpdated     DateTime @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, artistName])
   @@map("user_music_taste")
 }
 
 model RestaurantPartner {
-  id                  String   @id @default(uuid())
-  name                String
-  address             Json
-  contactInfo         Json
-  discountPercentage  Float?
-  qrCodeUrl           String?
-  isActive            Boolean  @default(true)
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  id                 String   @id @default(uuid())
+  name               String
+  address            Json
+  contactInfo        Json
+  discountPercentage Float?
+  qrCodeUrl          String?
+  isActive           Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 
   @@map("restaurant_partners")
 }
 
 model SocialPost {
-  id        String   @id @default(uuid())
+  id        String          @id @default(uuid())
   userId    String
   eventId   String?
   content   String
   imageUrl  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  event    Event?          @relation(fields: [eventId], references: [id], onDelete: SetNull)
-  comments SocialComment[]
-  likes    SocialLike[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  comments  SocialComment[]
+  likes     SocialLike[]
+  event     Event?          @relation(fields: [eventId], references: [id])
+  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("social_posts")
 }
 
 model SocialComment {
-  id        String   @id @default(uuid())
+  id        String     @id @default(uuid())
   postId    String
   userId    String
   content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  post SocialPost @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  post      SocialPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("social_comments")
 }
 
 model SocialLike {
-  id        String   @id @default(uuid())
+  id        String     @id @default(uuid())
   postId    String
   userId    String
-  createdAt DateTime @default(now())
-
-  post SocialPost @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime   @default(now())
+  post      SocialPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([postId, userId])
   @@map("social_likes")
 }
 
 model Payment {
-  id               String   @id @default(uuid())
-  userId           String
-  eventId          String?
-  stripePaymentId  String   @unique
-  amount           Int      // Amount in cents
-  currency         String   @default("usd")
-  status           String   // 'pending', 'succeeded', 'failed', 'canceled'
-  description      String?
-  metadata         Json?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-
-  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  event Event? @relation(fields: [eventId], references: [id], onDelete: SetNull)
+  id              String   @id @default(uuid())
+  userId          String
+  eventId         String?
+  stripePaymentId String   @unique
+  amount          Int
+  currency        String   @default("usd")
+  status          String
+  description     String?
+  metadata        Json?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  event           Event?   @relation(fields: [eventId], references: [id])
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("payments")
 }

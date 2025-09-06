@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Layout from '../components/Layout';
 import { ApiClient } from '../lib/api';
-import { CalendarIcon, MapPinIcon, TicketIcon } from '@heroicons/react/24/outline';
+import { CalendarIcon, MapPinIcon, TicketIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 
 interface Event {
   id: string;
@@ -28,7 +28,7 @@ export default function HomePage() {
     const fetchFeaturedEvents = async () => {
       try {
         const response = await ApiClient.getFeaturedEvents(8);
-        setFeaturedEvents(response.data.events);
+        setFeaturedEvents((response as any).data?.events || []);
       } catch (error) {
         console.error('Error fetching featured events:', error);
       } finally {
