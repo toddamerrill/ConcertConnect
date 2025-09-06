@@ -43,6 +43,9 @@ model User {
   posts     SocialPost[]
   comments  SocialComment[]
   likes     SocialLike[]
+  
+  // Payments
+  payments  Payment[]
 
   @@map("users")
 }
@@ -68,6 +71,7 @@ model Event {
   // Relations
   userEvents UserEvent[]
   posts      SocialPost[]
+  payments   Payment[]
 
   @@map("events")
 }
@@ -187,6 +191,9 @@ model Payment {
   metadata         Json?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
+
+  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event Event? @relation(fields: [eventId], references: [id], onDelete: SetNull)
 
   @@map("payments")
 }

@@ -159,13 +159,13 @@ router.get('/:id', optionalAuth, async (req: AuthRequest, res, next) => {
     }
 
     // Add user interaction data if authenticated
-    let eventWithUserData = { ...event };
+    let eventWithUserData: any = { ...event };
     if (req.user && event.userEvents) {
       eventWithUserData = {
         ...event,
         userInteractions: event.userEvents.map(ue => ue.interactionType)
       };
-      delete (eventWithUserData as any).userEvents;
+      delete eventWithUserData.userEvents;
     }
 
     res.json({
