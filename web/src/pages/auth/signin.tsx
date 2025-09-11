@@ -31,7 +31,7 @@ export default function SignIn() {
         // Get the updated session and redirect
         const session = await getSession();
         if (session) {
-          router.push('/dashboard');
+          router.push('/events');
         }
       }
     } catch (error) {
@@ -127,7 +127,7 @@ export default function SignIn() {
             </div>
 
             <button
-              onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+              onClick={() => signIn('google', { callbackUrl: '/events' })}
               className="w-full mt-4 bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center"
             >
               <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">

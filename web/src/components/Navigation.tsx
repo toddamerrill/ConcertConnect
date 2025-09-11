@@ -6,13 +6,15 @@ import {
   UserGroupIcon,
   TicketIcon,
   CogIcon,
+  UserIcon,
 } from '@heroicons/react/24/outline';
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
+  { name: 'Home', href: '/', icon: HomeIcon },
   { name: 'Events', href: '/events', icon: CalendarIcon },
   { name: 'Social', href: '/social', icon: UserGroupIcon },
   { name: 'My Events', href: '/my-events', icon: TicketIcon },
+  { name: 'Profile', href: '/profile', icon: UserIcon },
   { name: 'Settings', href: '/settings', icon: CogIcon },
 ];
 

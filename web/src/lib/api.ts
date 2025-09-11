@@ -7,6 +7,7 @@ interface ApiOptions {
   body?: any;
   headers?: Record<string, string>;
   requireAuth?: boolean;
+  useProxy?: boolean; // Use NextAuth proxy instead of direct backend call
 }
 
 export class ApiClient {
@@ -18,7 +19,8 @@ export class ApiClient {
       method = 'GET', 
       body, 
       headers = {}, 
-      requireAuth = true 
+      requireAuth = true,
+      useProxy = false
     } = options;
 
     const config: RequestInit = {
@@ -29,16 +31,16 @@ export class ApiClient {
       },
     };
 
-    // Add auth token if required
-    if (requireAuth) {
+    // For proxy routes (NextAuth authenticated), don't add Authorization header
+    // The proxy will handle authentication via NextAuth session
+    if (!useProxy && requireAuth) {
       try {
         const session = await getSession();
         if (session?.user) {
-          // For now, we'll use a placeholder token or implement JWT token handling
-          // In a real app, you'd get the JWT token from your auth system
+          // For direct backend calls, use email as Bearer token (hybrid auth)
           config.headers = {
             ...config.headers,
-            Authorization: `Bearer ${session.user.email}`, // Temporary placeholder
+            Authorization: `Bearer ${session.user.email}`,
           };
         }
       } catch (error) {
@@ -51,7 +53,9 @@ export class ApiClient {
       config.body = JSON.stringify(body);
     }
 
-    const response = await fetch(`${API_URL}${endpoint}`, config);
+    // Use proxy route (localhost:3000) or direct backend (localhost:3001)
+    const baseUrl = useProxy ? '' : API_URL;
+    const response = await fetch(`${baseUrl}${endpoint}`, config);
     
     if (!response.ok) {
       const error = await response.json().catch(() => ({
@@ -134,7 +138,9 @@ export class ApiClient {
 
   static async getUserEvents(type?: string) {
     const query = type ? `?type=${type}` : '';
-    return this.makeRequest(`/api/events/user/my-events${query}`);
+    return this.makeRequest(`/api/events/user/my-events${query}`, {
+      useProxy: true, // Use NextAuth proxy route
+    });
   }
 
   static async getFeaturedEvents(limit: number = 10) {
@@ -148,6 +154,7 @@ export class ApiClient {
     return this.makeRequest('/api/social/friends/request', {
       method: 'POST',
       body: { userId },
+      useProxy: true, // Use NextAuth proxy route
     });
   }
 
@@ -155,15 +162,20 @@ export class ApiClient {
     return this.makeRequest(`/api/social/friends/request/${requestId}`, {
       method: 'PATCH',
       body: { action },
+      useProxy: true, // Use NextAuth proxy route
     });
   }
 
   static async getFriends() {
-    return this.makeRequest('/api/social/friends');
+    return this.makeRequest('/api/social/friends', {
+      useProxy: true, // Use NextAuth proxy route
+    });
   }
 
   static async getFriendRequests() {
-    return this.makeRequest('/api/social/friends/requests');
+    return this.makeRequest('/api/social/friends/requests', {
+      useProxy: true, // Use NextAuth proxy route
+    });
   }
 
   static async createPost(postData: {
@@ -174,16 +186,20 @@ export class ApiClient {
     return this.makeRequest('/api/social/posts', {
       method: 'POST',
       body: postData,
+      useProxy: true, // Use NextAuth proxy route
     });
   }
 
   static async getSocialFeed(page: number = 0, limit: number = 20) {
-    return this.makeRequest(`/api/social/posts?page=${page}&limit=${limit}`);
+    return this.makeRequest(`/api/social/posts?page=${page}&limit=${limit}`, {
+      useProxy: true, // Use NextAuth proxy route
+    });
   }
 
   static async likePost(postId: string) {
     return this.makeRequest(`/api/social/posts/${postId}/like`, {
       method: 'POST',
+      useProxy: true, // Use NextAuth proxy route
     });
   }
 

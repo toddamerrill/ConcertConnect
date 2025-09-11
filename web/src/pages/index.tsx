@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import Layout from '../components/Layout';
+import SocialWidget from '../components/SocialWidget';
 import { ApiClient } from '../lib/api';
 import { CalendarIcon, MapPinIcon, TicketIcon, UserGroupIcon } from '@heroicons/react/24/outline';
 
@@ -186,6 +187,13 @@ export default function HomePage() {
           </div>
         )}
       </div>
+
+      {/* Social Widget */}
+      {session && (
+        <div className="mb-12">
+          <SocialWidget />
+        </div>
+      )}
 
       {/* Call to Action */}
       {!session && (

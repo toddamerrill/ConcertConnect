@@ -30,22 +30,49 @@ export const authenticateToken = async (
       throw new Error('Authentication configuration error');
     }
 
-    const decoded = jwt.verify(token, secret) as any;
-    req.user = {
-      id: decoded.userId,
-      email: decoded.email,
-      role: decoded.role
-    };
+    try {
+      // Try to verify as JWT token first
+      const decoded = jwt.verify(token, secret) as any;
+      req.user = {
+        id: decoded.userId,
+        email: decoded.email,
+        role: decoded.role
+      };
+      next();
+    } catch (jwtError) {
+      // If JWT verification fails, try email-based auth for NextAuth integration
+      if (token.includes('@')) {
+        // This looks like an email, try to find user by email
+        const { prisma } = await import('../lib/prisma');
+        const user = await prisma.user.findUnique({
+          where: { email: token },
+          select: {
+            id: true,
+            email: true,
+          }
+        });
 
-    next();
-  } catch (error) {
-    if (error instanceof jwt.JsonWebTokenError) {
-      next(new UnauthorizedError('Invalid token'));
-    } else if (error instanceof jwt.TokenExpiredError) {
-      next(new UnauthorizedError('Token expired'));
-    } else {
-      next(error);
+        if (user) {
+          req.user = {
+            id: user.id,
+            email: user.email,
+          };
+          next();
+          return;
+        }
+      }
+      
+      // If both JWT and email auth fail, throw error
+      if (jwtError instanceof jwt.JsonWebTokenError) {
+        throw new UnauthorizedError('Invalid token');
+      } else if (jwtError instanceof jwt.TokenExpiredError) {
+        throw new UnauthorizedError('Token expired');
+      } else {
+        throw jwtError;
+      }
     }
+  } catch (error) {
+    next(error);
   }
 };
 
